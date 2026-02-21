@@ -1,124 +1,104 @@
-.main-container {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 10%;
-}
-
-.login-card {
-  width: 380px;
-  padding: 40px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  color: white;
-}
-
-.brand h1 {
-  font-size: 28px;
-  margin-bottom: 5px;
-  letter-spacing: 2px;
-}
-
-.brand p {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 25px;
-}
-
+ /* ===== ROLE SELECTION ===== */
 .role-selection {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   margin-bottom: 20px;
+  gap: 10px;
 }
 
 .role-btn {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  background: rgba(255,255,255,0.15);
+  font-size: 14px;
+  font-weight: 500;
+
+  background: rgba(255, 255, 255, 0.2);
   color: white;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
+.role-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+/* active role */
 .role-btn.active {
   background: white;
-  color: #4e0eff;
+  color: #5f2eea;
   font-weight: bold;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
+/* ===== INPUT FIELDS ===== */
 input {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  margin-bottom: 15px;
+
+  border-radius: 12px;
   border: none;
   outline: none;
+
+  font-size: 14px;
 }
 
-.password-group {
+input::placeholder {
+  color: #666;
+}
+
+/* password container */
+.password-box {
   position: relative;
 }
 
 #togglePassword {
   position: absolute;
-  right: 10px;
-  top: 12px;
+  right: 12px;
+  top: 10px;
   cursor: pointer;
 }
 
+/* ===== PRIMARY BUTTON ===== */
 .primary-btn {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: none;
+
   background: white;
-  color: #4e0eff;
+  color: #5f2eea;
   font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 15px;
+
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== SECONDARY BUTTON ===== */
 .secondary-btn {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  margin-top: 12px;
+
+  border-radius: 12px;
   border: 2px solid white;
+
   background: transparent;
   color: white;
+  font-weight: 500;
+
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.error-msg {
-  margin-top: 10px;
-  color: #ff6b6b;
-  font-size: 14px;
-}
-.login-card {
-  animation: fadeIn 0.8s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.role-btn {
-  transition: all 0.3s ease;
-}
-
-.role-btn:hover {
-  transform: scale(1.05);
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
