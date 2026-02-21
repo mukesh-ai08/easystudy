@@ -19,7 +19,7 @@ roleButtons.forEach(button => {
 });
 
 // Function to check role before auth
-function checkRoleSelected() {
+ export function checkRoleSelected() {
   if (!selectedRole) {
     errorMsg.textContent = "Please select School or College role.";
     return false;
