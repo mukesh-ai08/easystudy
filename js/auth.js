@@ -1,4 +1,5 @@
- import { auth, db } from "./firebase.js";
+import { selectedRole, checkRoleSelected } from "./role.js";
+import { auth, db } from "./firebase.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
