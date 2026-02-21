@@ -1,1 +1,102 @@
+.main-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10%;
+}
 
+.login-card {
+  width: 380px;
+  padding: 40px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  color: white;
+}
+
+.brand h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  letter-spacing: 2px;
+}
+
+.brand p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 25px;
+}
+
+.role-selection {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.role-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  transition: 0.3s;
+}
+
+.role-btn.active {
+  background: white;
+  color: #4e0eff;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.password-group {
+  position: relative;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: white;
+  color: #4e0eff;
+  font-weight: bold;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.error-msg {
+  margin-top: 10px;
+  color: #ff6b6b;
+  font-size: 14px;
+}
