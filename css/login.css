@@ -100,3 +100,25 @@ input {
   color: #ff6b6b;
   font-size: 14px;
 }
+.login-card {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.role-btn {
+  transition: all 0.3s ease;
+}
+
+.role-btn:hover {
+  transform: scale(1.05);
+}
