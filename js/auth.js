@@ -1,5 +1,6 @@
+ import { auth, db } from "./firebase.js";
 import { selectedRole, checkRoleSelected } from "./role.js";
-import { auth, db } from "./firebase.js";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -12,26 +13,48 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Get elements
 const signupBtn = document.getElementById("signupBtn");
 const loginBtn = document.getElementById("loginBtn");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
-const errorMsg = document.getElementById("errorMsg");
+const togglePassword = document.getElementById("togglePassword");
 
+// ===== PASSWORD TOGGLE =====
+togglePassword.addEventListener("click", () => {
+  const type =
+    passwordInput.getAttribute("type") === "password"
+      ? "text"
+      : "password";
+
+  passwordInput.setAttribute("type", type);
+});
+
+// ===== SIGN UP =====
 signupBtn.addEventListener("click", async () => {
   if (!checkRoleSelected()) return;
 
-  const email = emailInput.value;
-  const password = passwordInput.value;
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    alert("Please enter email and password.");
+    return;
+  }
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
     const user = userCredential.user;
 
     // Send verification email
     await sendEmailVerification(user);
 
-    // Save user data in Firestore
+    // Save user in Firestore
     await setDoc(doc(db, "users", user.uid), {
       email: email,
       role: selectedRole,
@@ -42,18 +65,29 @@ signupBtn.addEventListener("click", async () => {
     alert("Verification email sent! Please verify before login.");
 
   } catch (error) {
-    errorMsg.textContent = error.message;
+    alert(error.message);
   }
 });
 
+// ===== LOGIN =====
 loginBtn.addEventListener("click", async () => {
   if (!checkRoleSelected()) return;
 
-  const email = emailInput.value;
-  const password = passwordInput.value;
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    alert("Please enter email and password.");
+    return;
+  }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
     const user = userCredential.user;
 
     if (!user.emailVerified) {
@@ -61,6 +95,7 @@ loginBtn.addEventListener("click", async () => {
       return;
     }
 
+    // Get role from Firestore
     const userDoc = await getDoc(doc(db, "users", user.uid));
     const userData = userDoc.data();
 
@@ -71,6 +106,6 @@ loginBtn.addEventListener("click", async () => {
     }
 
   } catch (error) {
-    errorMsg.textContent = error.message;
+    alert(error.message);
   }
 });
