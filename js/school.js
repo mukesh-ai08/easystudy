@@ -1,35 +1,60 @@
-import { auth, db } from "./firebase.js";
-import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ // get firebase instances
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const saveBtn = document.getElementById("saveClassBtn");
-const classSelect = document.getElementById("classSelect");
+const auth = getAuth();
+const db = getFirestore();
 
-// Make sure user is logged in
-auth.onAuthStateChanged((user) => {
+const welcomeUser = document.getElementById("welcomeUser");
+const usageCount = document.getElementById("usageCount");
+const startStudyBtn = document.getElementById("startStudyBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+// check login
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "index.html";
-  }
-});
-
-// Save class selection
-saveBtn.addEventListener("click", async () => {
-  const selectedClass = classSelect.value;
-
-  if (!selectedClass) {
-    alert("Please select your class.");
     return;
   }
 
-  const user = auth.currentUser;
+  welcomeUser.innerText = "welcome, " + user.email;
 
-  try {
-    await updateDoc(doc(db, "users", user.uid), {
-      class: selectedClass
-    });
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
 
-    window.location.href = "school-dashboard.html";
-
-  } catch (error) {
-    alert(error.message);
+  if (userSnap.exists()) {
+    const data = userSnap.data();
+    usageCount.innerText = data.dailyUsage + " / 5";
   }
+});
+
+// start study button
+startStudyBtn.addEventListener("click", async () => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+  const data = userSnap.data();
+
+  if (data.dailyUsage >= 5) {
+    alert("daily limit reached. upgrade coming soon 💜");
+    return;
+  }
+
+  const newUsage = data.dailyUsage + 1;
+
+  await updateDoc(userRef, {
+    dailyUsage: newUsage
+  });
+
+  usageCount.innerText = newUsage + " / 5";
+
+  alert("ai question generated (demo). usage updated.");
+});
+
+// logout
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "index.html";
 });
