@@ -1,4 +1,4 @@
-let selectedRole = null;
+ export let selectedRole = null;
 
 const roleButtons = document.querySelectorAll(".role-btn");
 const errorMsg = document.getElementById("errorMsg");
