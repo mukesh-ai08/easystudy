@@ -1,27 +1,34 @@
- export let selectedRole = null;
+ // Selected role variable
+export let selectedRole = null;
 
-const roleButtons = document.querySelectorAll(".role-btn");
-const errorMsg = document.getElementById("errorMsg");
+// Get buttons
+const schoolBtn = document.getElementById("schoolBtn");
+const collegeBtn = document.getElementById("collegeBtn");
 
-roleButtons.forEach(button => {
-  button.addEventListener("click", () => {
+// Function to activate selected button
+function activateButton(button) {
+  schoolBtn.classList.remove("active");
+  collegeBtn.classList.remove("active");
 
-    // Remove active from all
-    roleButtons.forEach(btn => btn.classList.remove("active"));
+  button.classList.add("active");
+}
 
-    // Add active to clicked
-    button.classList.add("active");
-
-    selectedRole = button.dataset.role;
-
-    errorMsg.textContent = "";
-  });
+// School button click
+schoolBtn.addEventListener("click", () => {
+  selectedRole = "school";
+  activateButton(schoolBtn);
 });
 
-// Function to check role before auth
- export function checkRoleSelected() {
+// College button click
+collegeBtn.addEventListener("click", () => {
+  selectedRole = "college";
+  activateButton(collegeBtn);
+});
+
+// Export role check function
+export function checkRoleSelected() {
   if (!selectedRole) {
-    errorMsg.textContent = "Please select School or College role.";
+    alert("Please select School or College role.");
     return false;
   }
   return true;
