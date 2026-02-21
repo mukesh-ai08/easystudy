@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EasyStudy | Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
 
+<body>
+
+  <div class="main-container">
+
+    <div class="login-card">
+
+      <div class="brand">
+        <h1>EASYSTUDY</h1>
+        <p>Build Discipline. Build Future.</p>
+      </div>
+
+      <!-- Role Selection -->
+      <div class="role-selection">
+        <button class="role-btn" data-role="school">🎒 School</button>
+        <button class="role-btn" data-role="college">🎓 College</button>
+      </div>
+
+      <!-- Auth Form -->
+      <div class="form-group">
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+
+      <div class="form-group password-group">
+        <input type="password" id="password" placeholder="Enter your password">
+        <span id="togglePassword">👁</span>
+      </div>
+
+      <button id="signupBtn" class="primary-btn">Sign Up</button>
+      <button id="loginBtn" class="secondary-btn">Login</button>
+
+      <p class="error-msg" id="errorMsg"></p>
+
+    </div>
+
+  </div>
+
+  <script src="js/role.js"></script>
+  <script src="js/auth.js"></script>
+
+</body>
+</html>
