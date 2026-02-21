@@ -1,11 +1,11 @@
-// Import Firebase modules (v9 modular CDN)
+ // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Your Firebase config
+// Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyDNT5bDtlPyoSBZvv_NFTmATIMLRIvpBLQ",
   authDomain: "easystudy-96fa3.firebaseapp.com",
   projectId: "easystudy-96fa3",
   storageBucket: "easystudy-96fa3.firebasestorage.app",
@@ -16,6 +16,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Initialize services
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Export for other JS files
+export { auth, db };
