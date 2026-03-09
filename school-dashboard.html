@@ -1,31 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>easystudy - school dashboard</title>
-  <link rel="stylesheet" href="./css/school.css">
-</head>
-<body>
+ <body>
 
 <div class="dashboard-card">
-  <h2>📚 school dashboard</h2>
-  <p id="welcomeUser">loading...</p>
+
+  <h2>📚 EasyStudy</h2>
+  <p class="tagline">Build Discipline. Build Future.</p>
+
+  <p id="welcomeUser" class="welcome">loading...</p>
 
   <div class="usage-box">
-    <p>daily questions used:</p>
-    <h3 id="usageCount">0 / 5</h3>
+      <p>Daily Questions</p>
+
+      <div class="progress">
+          <div id="progressBar"></div>
+      </div>
+
+      <h3 id="usageCount">0 / 5</h3>
   </div>
 
-  <button id="startStudyBtn" class="primary-btn">start ai study</button>
-  <button id="logoutBtn" class="secondary-btn">logout</button>
+  <button id="startStudyBtn" class="primary-btn">
+      🤖 Start AI Study
+  </button>
 
-  <p class="footer">built with ❤️ by mukesh</p>
+  <button id="logoutBtn" class="secondary-btn">
+      🚪 Logout
+  </button>
+
+  <p class="footer">Built with ❤️ by Mukesh</p>
+
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-
- <script type="module" src="./js/firebase.js"></script>
+<script type="module" src="./js/firebase.js"></script>
 <script type="module" src="./js/school.js"></script>
+
 </body>
-</html>
