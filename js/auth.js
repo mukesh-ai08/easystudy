@@ -109,3 +109,29 @@ loginBtn.addEventListener("click", async () => {
     alert(error.message);
   }
 });
+import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { auth } from "./firebase.js";
+
+const googleBtn = document.getElementById("googleLogin");
+
+googleBtn.addEventListener("click", async () => {
+
+  const provider = new GoogleAuthProvider();
+
+  try {
+
+    const result = await signInWithPopup(auth, provider);
+
+    const user = result.user;
+
+    alert("Welcome " + user.displayName);
+
+    window.location.href = "verify.html";
+
+  } catch (error) {
+
+    alert(error.message);
+
+  }
+
+});
