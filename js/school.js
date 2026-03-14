@@ -61,12 +61,13 @@ onAuthStateChanged(auth, async (user) => {
 
         btn.className = "subject-btn";
         btn.innerText = subject;
-
         btn.onclick = () => {
 
-          alert("You selected " + subject);
+  localStorage.setItem("selectedSubject", subject);
 
-        };
+  window.location.href = "study.html";
+
+};
 
         subjectContainer.appendChild(btn);
 
