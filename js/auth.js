@@ -15,11 +15,7 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-// =====================
-// GET ELEMENTS
-// =====================
-
+// Elements
 const signupBtn = document.getElementById("signupBtn");
 const loginBtn = document.getElementById("loginBtn");
 const googleBtn = document.getElementById("googleLogin");
@@ -29,25 +25,23 @@ const passwordInput = document.getElementById("password");
 const togglePassword = document.getElementById("togglePassword");
 
 
-// =====================
-// PASSWORD SHOW / HIDE
-// =====================
+// ===== PASSWORD TOGGLE =====
+if (togglePassword) {
+  togglePassword.addEventListener("click", () => {
 
-togglePassword.addEventListener("click", () => {
+    const type =
+      passwordInput.getAttribute("type") === "password"
+        ? "text"
+        : "password";
 
-  const type =
-    passwordInput.getAttribute("type") === "password"
-      ? "text"
-      : "password";
+    passwordInput.setAttribute("type", type);
 
-  passwordInput.setAttribute("type", type);
-
-});
+  });
+}
 
 
-// =====================
-// SIGN UP
-// =====================
+// ===== SIGN UP =====
+if (signupBtn) {
 
 signupBtn.addEventListener("click", async () => {
 
@@ -68,10 +62,8 @@ signupBtn.addEventListener("click", async () => {
 
     const user = userCredential.user;
 
-    // send verification email
     await sendEmailVerification(user);
 
-    // store user in Firestore
     await setDoc(doc(db, "users", user.uid), {
       email: email,
       role: selectedRole,
@@ -86,11 +78,11 @@ signupBtn.addEventListener("click", async () => {
   }
 
 });
+}
 
 
-// =====================
-// LOGIN
-// =====================
+// ===== LOGIN =====
+if (loginBtn) {
 
 loginBtn.addEventListener("click", async () => {
 
@@ -136,60 +128,54 @@ loginBtn.addEventListener("click", async () => {
   }
 
 });
+}
 
 
-// =====================
-// GOOGLE LOGIN
-// =====================
-
+// ===== GOOGLE LOGIN =====
 if (googleBtn) {
 
-  googleBtn.addEventListener("click", async () => {
+googleBtn.addEventListener("click", async () => {
 
-    if (!checkRoleSelected()) return;
+  if (!checkRoleSelected()) return;
 
-    const provider = new GoogleAuthProvider();
+  const provider = new GoogleAuthProvider();
 
-    try {
+  try {
 
-      const result =
-        await signInWithPopup(auth, provider);
+    const result =
+      await signInWithPopup(auth, provider);
 
-      const user = result.user;
+    const user = result.user;
 
-      const userRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userRef);
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
 
-      // if first login create user
-      if (!userDoc.exists()) {
+    if (!userDoc.exists()) {
 
-        await setDoc(userRef, {
-          email: user.email,
-          role: selectedRole,
-          dailyUsage: 0,
-          createdAt: new Date()
-        });
-
-      }
-
-      const data = (await getDoc(userRef)).data();
-
-      if (data.role === "school") {
-
-        window.location.href = "setup-school.html";
-
-      } else {
-
-        window.location.href = "setup-college.html";
-
-      }
-
-    } catch (error) {
-
-      alert(error.message);
+      await setDoc(userRef, {
+        email: user.email,
+        role: selectedRole,
+        dailyUsage: 0,
+        createdAt: new Date()
+      });
 
     }
 
-  });
+    const data = (await getDoc(userRef)).data();
 
+    if (data.role === "school") {
+
+      window.location.href = "setup-school.html";
+
+    } else {
+
+      window.location.href = "setup-college.html";
+
+    }
+
+  } catch (error) {
+    alert(error.message);
+  }
+
+});
 }
