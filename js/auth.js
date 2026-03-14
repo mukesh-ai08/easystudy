@@ -4,7 +4,9 @@ import { selectedRole, checkRoleSelected } from "./role.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendEmailVerification
+  sendEmailVerification,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
@@ -13,25 +15,42 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Get elements
+
+// =====================
+// GET ELEMENTS
+// =====================
+
 const signupBtn = document.getElementById("signupBtn");
 const loginBtn = document.getElementById("loginBtn");
+const googleBtn = document.getElementById("googleLogin");
+
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const togglePassword = document.getElementById("togglePassword");
 
-// ===== PASSWORD TOGGLE =====
+
+// =====================
+// PASSWORD SHOW / HIDE
+// =====================
+
 togglePassword.addEventListener("click", () => {
+
   const type =
     passwordInput.getAttribute("type") === "password"
       ? "text"
       : "password";
 
   passwordInput.setAttribute("type", type);
+
 });
 
-// ===== SIGN UP =====
+
+// =====================
+// SIGN UP
+// =====================
+
 signupBtn.addEventListener("click", async () => {
+
   if (!checkRoleSelected()) return;
 
   const email = emailInput.value.trim();
@@ -43,18 +62,16 @@ signupBtn.addEventListener("click", async () => {
   }
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+
+    const userCredential =
+      await createUserWithEmailAndPassword(auth, email, password);
 
     const user = userCredential.user;
 
-    // Send verification email
+    // send verification email
     await sendEmailVerification(user);
 
-    // Save user in Firestore
+    // store user in Firestore
     await setDoc(doc(db, "users", user.uid), {
       email: email,
       role: selectedRole,
@@ -67,10 +84,16 @@ signupBtn.addEventListener("click", async () => {
   } catch (error) {
     alert(error.message);
   }
+
 });
 
-// ===== LOGIN =====
+
+// =====================
+// LOGIN
+// =====================
+
 loginBtn.addEventListener("click", async () => {
+
   if (!checkRoleSelected()) return;
 
   const email = emailInput.value.trim();
@@ -82,11 +105,9 @@ loginBtn.addEventListener("click", async () => {
   }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+
+    const userCredential =
+      await signInWithEmailAndPassword(auth, email, password);
 
     const user = userCredential.user;
 
@@ -95,43 +116,80 @@ loginBtn.addEventListener("click", async () => {
       return;
     }
 
-    // Get role from Firestore
-    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userDoc =
+      await getDoc(doc(db, "users", user.uid));
+
     const userData = userDoc.data();
 
     if (userData.role === "school") {
+
       window.location.href = "setup-school.html";
+
     } else {
+
       window.location.href = "setup-college.html";
+
     }
 
   } catch (error) {
     alert(error.message);
   }
-});
-import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { auth } from "./firebase.js";
-
-const googleBtn = document.getElementById("googleLogin");
-
-googleBtn.addEventListener("click", async () => {
-
-  const provider = new GoogleAuthProvider();
-
-  try {
-
-    const result = await signInWithPopup(auth, provider);
-
-    const user = result.user;
-
-    alert("Welcome " + user.displayName);
-
-    window.location.href = "verify.html";
-
-  } catch (error) {
-
-    alert(error.message);
-
-  }
 
 });
+
+
+// =====================
+// GOOGLE LOGIN
+// =====================
+
+if (googleBtn) {
+
+  googleBtn.addEventListener("click", async () => {
+
+    if (!checkRoleSelected()) return;
+
+    const provider = new GoogleAuthProvider();
+
+    try {
+
+      const result =
+        await signInWithPopup(auth, provider);
+
+      const user = result.user;
+
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+
+      // if first login create user
+      if (!userDoc.exists()) {
+
+        await setDoc(userRef, {
+          email: user.email,
+          role: selectedRole,
+          dailyUsage: 0,
+          createdAt: new Date()
+        });
+
+      }
+
+      const data = (await getDoc(userRef)).data();
+
+      if (data.role === "school") {
+
+        window.location.href = "setup-school.html";
+
+      } else {
+
+        window.location.href = "setup-college.html";
+
+      }
+
+    } catch (error) {
+
+      alert(error.message);
+
+    }
+
+  });
+
+}
